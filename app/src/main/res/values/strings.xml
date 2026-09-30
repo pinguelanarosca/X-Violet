@@ -152,4 +152,18 @@
     <string name="err_crypto_user">Falha criptográfica no Keystore. A chave precisa ser reinserida.</string>
     <string name="err_cancelled_user">A operação foi cancelada pelo usuário.</string>
     <string name="err_unknown_user">Ocorreu um erro imprevisto.</string>
+
+    <!-- Visual Themes -->
+    <string name="theme_section_title">Temas Visuais</string>
+    <string name="theme_section_desc">Escolha a identidade estética e comportamental do aplicativo.</string>
+    <string name="theme_steampunk_name">Steampunk</string>
+    <string name="theme_steampunk_desc">Bronze, latão, cobre, fornalha industrial e engrenagens mecânicas vivas</string>
+    <string name="theme_midnight_name">Meia-noite Cósmica</string>
+    <string name="theme_midnight_desc">Azul profundo, nébula estelar e atmosfera orbital serena</string>
+    <string name="theme_neon_name">Neon Cyber</string>
+    <string name="theme_neon_desc">Ciano elétrico, magenta vibrante e pulso digital de alta energia</string>
+    <string name="theme_nature_name">Natureza Viva</string>
+    <string name="theme_nature_desc">Verde floresta, tons terrosos quentes e respiração botânica</string>
+    <string name="theme_minimal_name">Minimalista</string>
+    <string name="theme_minimal_desc">Alto contraste monocromático, linhas puras e foco absoluto</string>
 </resources>

@@ -71,6 +71,8 @@ fun LiveScreen(
     val durationSeconds by liveManager.callDurationSeconds.collectAsState()
     val liveMessages by liveManager.liveMessages.collectAsState()
 
+    val appTheme = com.example.ui.theme.LocalAppTheme.current
+
     val activeAudioDevice by audioRoutingManager.activeCommunicationDevice.collectAsState()
     val availableDevices by audioRoutingManager.availableDevices.collectAsState()
 
@@ -162,7 +164,7 @@ fun LiveScreen(
 
                             if (isConnected) {
                                 Surface(
-                                    color = Color(0xFF4CAF50).copy(alpha = 0.2f),
+                                    color = appTheme.visualStyle.liveStateColors.listening.copy(alpha = 0.2f),
                                     shape = RoundedCornerShape(12.dp)
                                 ) {
                                     Row(
@@ -174,13 +176,13 @@ fun LiveScreen(
                                             modifier = Modifier
                                                 .size(6.dp)
                                                 .clip(CircleShape)
-                                                .background(Color(0xFF4CAF50))
+                                                .background(appTheme.visualStyle.liveStateColors.listening)
                                         )
                                         Text(
                                             text = formattedDuration,
                                             fontSize = 11.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color(0xFF4CAF50)
+                                            color = appTheme.visualStyle.liveStateColors.listening
                                         )
                                     }
                                 }
@@ -320,7 +322,7 @@ fun LiveScreen(
                             }
                         },
                         colors = IconButtonDefaults.filledTonalIconButtonColors(
-                            containerColor = if (isCameraActive) Color(0xFF4CAF50).copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceVariant
+                            containerColor = if (isCameraActive) appTheme.visualStyle.liveStateColors.listening.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceVariant
                         ),
                         modifier = Modifier
                             .size(52.dp)
@@ -329,7 +331,7 @@ fun LiveScreen(
                         Icon(
                             imageVector = if (isCameraActive) Icons.Default.VideocamOff else Icons.Default.Videocam,
                             contentDescription = "Câmera",
-                            tint = if (isCameraActive) Color(0xFF4CAF50) else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (isCameraActive) appTheme.visualStyle.liveStateColors.listening else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
@@ -443,13 +445,13 @@ fun LiveScreen(
                 )
             }
 
-            // Orbe Holográfica e Animação de Fala Oficial Gemini Live
-            GeminiLiveVisualizer(
-                userAmplitude = userAmplitude,
-                modelAmplitude = modelAmplitude,
-                isThinking = isModelThinking,
-                isConnected = isConnected,
-                modifier = Modifier.padding(vertical = 12.dp)
+            // Visualizador Temático do Modo Live
+            appTheme.liveVisualizerContent(
+                userAmplitude,
+                modelAmplitude,
+                isModelThinking,
+                isConnected,
+                Modifier.padding(vertical = 12.dp)
             )
 
             // Ticker de Legendas em Tempo Real

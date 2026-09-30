@@ -139,6 +139,19 @@ object HubLogger {
         )
 
         logChannel.trySend(entry)
+
+        // 3. Mirror breadcrumb and non-fatal exceptions to Firebase Crashlytics
+        try {
+            if (level == LogLevel.ERROR) {
+                if (throwable != null) {
+                    CrashlyticsManager.recordException(throwable, "NonFatal_[$category]_$sanitizedMessage")
+                } else {
+                    CrashlyticsManager.log("[ERROR][$category] $sanitizedMessage")
+                }
+            } else if (level == LogLevel.WARN || level == LogLevel.INFO) {
+                CrashlyticsManager.log("[$level][$category] $sanitizedMessage")
+            }
+        } catch (_: Throwable) {}
     }
 
     fun d(category: LogCategory, message: String, correlationId: String? = null) {

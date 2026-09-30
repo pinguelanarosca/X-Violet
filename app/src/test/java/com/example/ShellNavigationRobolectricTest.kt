@@ -90,6 +90,7 @@ class ShellNavigationRobolectricTest {
 
         // In Customize, click option card (Como fala) -> Opens How Speaks Screen
         composeTestRule.onNodeWithTag("nav_item_customize").performClick()
+        composeTestRule.onNodeWithTag("customize_screen").performScrollToNode(hasTestTag("card_customize_como_fala"))
         composeTestRule.onNodeWithTag("card_customize_como_fala").performClick()
         composeTestRule.onNodeWithTag("btn_back_how_speaks").assertExists()
         composeTestRule.onNodeWithTag("btn_back_how_speaks").performClick()

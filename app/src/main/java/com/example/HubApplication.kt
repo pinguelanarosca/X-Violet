@@ -124,7 +124,8 @@ class HubApplication : Application() {
             )
         }
 
-        // 2. Set up synchronous CrashHandler before anything else
+        // 2. Set up Firebase Crashlytics & synchronous CrashHandler before anything else
+        com.example.logging.CrashlyticsManager.init(this)
         val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(CrashHandler(this, previousHandler))
 

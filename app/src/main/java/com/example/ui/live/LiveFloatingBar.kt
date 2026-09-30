@@ -56,15 +56,16 @@ fun LiveFloatingBar(
     val seconds = durationSeconds % 60
     val formattedDuration = String.format("%02d:%02d", minutes, seconds)
 
-    val geminiCyan = Color(0xFF00E5FF)
-    val geminiViolet = Color(0xFF7C4DFF)
+    val appTheme = com.example.ui.theme.LocalAppTheme.current
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val secondaryColor = MaterialTheme.colorScheme.secondary
 
     Surface(
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp),
         shape = RoundedCornerShape(28.dp),
         border = androidx.compose.foundation.BorderStroke(
             1.5.dp,
-            Brush.horizontalGradient(listOf(geminiCyan, geminiViolet, geminiCyan))
+            Brush.horizontalGradient(listOf(primaryColor, secondaryColor, primaryColor))
         ),
         shadowElevation = 12.dp,
         modifier = modifier
@@ -85,10 +86,11 @@ fun LiveFloatingBar(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                GeminiLiveMiniVisualizer(
-                    userAmplitude = userAmplitude,
-                    modelAmplitude = modelAmplitude,
-                    isThinking = isModelThinking
+                appTheme.liveMiniVisualizerContent(
+                    userAmplitude,
+                    modelAmplitude,
+                    isModelThinking,
+                    Modifier
                 )
 
                 Column {
@@ -100,7 +102,10 @@ fun LiveFloatingBar(
                             modifier = Modifier
                                 .size(7.dp)
                                 .clip(CircleShape)
-                                .background(if (isConnected) Color(0xFF4CAF50) else Color(0xFFFFC107))
+                                .background(
+                                    if (isConnected) appTheme.visualStyle.liveStateColors.listening
+                                    else appTheme.visualStyle.liveStateColors.thinking
+                                )
                         )
                         Text(
                             text = if (isConnected) "Gemini Live • $formattedDuration" else "Conectando...",

@@ -16,6 +16,7 @@ class CrashHandler(
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         try {
             saveCrashReportSync(thread, throwable)
+            CrashlyticsManager.recordException(throwable, "UncaughtException_${thread.name}")
         } catch (e: Throwable) {
             // Failsafe: never crash inside the crash handler
         } finally {
