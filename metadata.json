@@ -1,0 +1,6 @@
+{
+  "name": "Hub",
+  "description": "Hub multimodal nativo de LLMs com cofre seguro e resiliência",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

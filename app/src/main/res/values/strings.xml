@@ -1,0 +1,155 @@
+<resources>
+    <string name="app_name">Hub</string>
+    <string name="app_subtitle">Hub Multimodal de LLMs</string>
+    
+    <!-- Navigation & Tabs -->
+    <string name="tab_chat">Chat</string>
+    <string name="tab_dashboard">Painel</string>
+    <string name="tab_customize">Personalizar</string>
+    <string name="tab_vault">Cofre de Chaves</string>
+    <string name="tab_logs">Logs do Sistema</string>
+    <string name="tab_system">Sistema</string>
+    <string name="tab_resilience">Resiliência &amp; Diagnóstico</string>
+    <string name="tab_security_info">Segurança</string>
+    <string name="tab_diagnostic">Diagnóstico</string>
+
+    <!-- Assistant Status -->
+    <string name="assistant_title">Assistente</string>
+    <string name="status_no_credential">Sem credencial</string>
+    <string name="status_offline">Offline</string>
+    <string name="status_unstable">Instável</string>
+    <string name="status_online">Online</string>
+    <string name="chat_input_hint">Digite sua mensagem para o assistente...</string>
+    <string name="btn_send">Enviar</string>
+    <string name="btn_voice_input">Entrada de Voz</string>
+    <string name="btn_camera_input">Câmera</string>
+    <string name="btn_attach_file">Anexar</string>
+
+    <!-- Dashboard Cards -->
+    <string name="card_brain_title">Cérebro</string>
+    <string name="card_brain_desc">Modelo ativo, tokens de contexto, temperatura e raciocínio.</string>
+    <string name="card_memory_title">Memória</string>
+    <string name="card_memory_desc">Fatos salvos, histórico de longo prazo e preferências.</string>
+    <string name="card_voice_title">Voz &amp; Áudio</string>
+    <string name="card_voice_desc">Entrada e saída em tempo real com baixa latência.</string>
+    <string name="card_vision_title">Visão &amp; Câmera</string>
+    <string name="card_vision_desc">Captura contínua de câmera e compartilhamento de tela.</string>
+    <string name="card_tools_title">Ferramentas</string>
+    <string name="card_tools_desc">Ações externas, buscas e automações autorizadas.</string>
+    <string name="card_diagnostic_title">Diagnóstico &amp; Cofre</string>
+    <string name="card_diagnostic_desc">Testes do Keystore, Circuit Breakers, Flag Secure e Resiliência.</string>
+
+    <!-- Customize Cards -->
+    <string name="card_how_speaks_title">Como fala</string>
+    <string name="card_how_speaks_desc">Tom de voz, velocidade, sotaque e estilo de dicção.</string>
+    <string name="card_how_thinks_title">Como pensa</string>
+    <string name="card_how_thinks_desc">Temperatura, profundidade de raciocínio e heurísticas.</string>
+    <string name="card_what_remembers_title">O que lembra</string>
+    <string name="card_what_remembers_desc">Gerenciamento de memória explícita e regras de esquecimento.</string>
+    <string name="card_what_can_do_title">O que pode fazer</string>
+    <string name="card_what_can_do_desc">Permissões de ferramentas e limites de execução autônoma.</string>
+    <string name="card_how_converses_title">Como conversa</string>
+    <string name="card_how_converses_desc">Formatação de respostas, brevidade e instruções do sistema.</string>
+    <string name="card_providers_title">Provedores de IA</string>
+    <string name="card_providers_desc">Configurar chaves no cofre e gerenciar modelos por provedor.</string>
+
+    <!-- Error Component -->
+    <string name="btn_copy_error_details">Copiar Detalhes</string>
+    <string name="error_copied">Detalhes sanitizados copiados para a área de transferência.</string>
+    
+    <!-- Vault / Keys -->
+    <string name="vault_title">Cofre de Chaves de API</string>
+    <string name="vault_description">Armazenamento cifrado via Android Keystore com AES-256-GCM em hardware seguro (StrongBox/TEE).</string>
+    <string name="provider_gemini">Google Gemini</string>
+    <string name="provider_openai">OpenAI</string>
+    <string name="provider_anthropic">Anthropic (Claude)</string>
+    <string name="provider_groq">Groq</string>
+    <string name="provider_openrouter">OpenRouter</string>
+    <string name="provider_xai">xAI (Grok)</string>
+    
+    <string name="key_status_active">Ativa &amp; Segura</string>
+    <string name="key_status_needs_reentry">Precisa ser reinserida</string>
+    <string name="key_status_not_set">Não configurada</string>
+    
+    <string name="btn_save_key">Salvar no Cofre</string>
+    <string name="btn_paste_key">Colar Chave</string>
+    <string name="btn_test_decrypt">Testar Decifragem</string>
+    <string name="btn_delete_key">Excluir Chave</string>
+    <string name="btn_simulate_decryption_failure">Simular Falha de Cifragem</string>
+    <string name="confirm_delete_title">Excluir Chave?</string>
+    <string name="confirm_delete_message">Tem certeza de que deseja apagar esta chave do cofre? Esta ação é irreversível.</string>
+    <string name="key_input_placeholder">Cole sua chave de API aqui...</string>
+    <string name="key_saved_success">Chave criptografada e armazenada com sucesso no Keystore.</string>
+    <string name="key_test_success">Chave decifrada com integridade válida (AAD correspondente).</string>
+    <string name="key_deleted_success">Chave removida do cofre.</string>
+    <string name="key_format_invalid">Formato de chave inválido ou muito curto.</string>
+    
+    <!-- Logs -->
+    <string name="logs_title">Logs do Sistema</string>
+    <string name="logs_filter_all">Todos</string>
+    <string name="logs_filter_debug">Debug</string>
+    <string name="logs_filter_info">Info</string>
+    <string name="logs_filter_warn">Avisos</string>
+    <string name="logs_filter_error">Erros</string>
+    <string name="logs_search_hint">Buscar em logs (sanitizados)...</string>
+    <string name="btn_clear_logs">Limpar Logs</string>
+    <string name="btn_copy_logs">Copiar</string>
+    <string name="btn_export_txt">Exportar .TXT</string>
+    <string name="btn_export_json">Exportar .JSON</string>
+    <string name="logs_copied">Logs copiados para a área de transferência.</string>
+    <string name="logs_exported">Arquivo salvo com sucesso.</string>
+    
+    <!-- Resilience & Diagnostics -->
+    <string name="resilience_title">Núcleo de Resiliência &amp; Diagnóstico</string>
+    <string name="circuit_breaker_status">Circuit Breaker</string>
+    <string name="circuit_state_closed">Fechado (Operação normal)</string>
+    <string name="circuit_state_open">Aberto (Instável)</string>
+    <string name="circuit_state_half_open">Meio-aberto (Sonda)</string>
+    <string name="network_status_online">Conexão ativa</string>
+    <string name="network_status_offline">Sem conexão de rede</string>
+    <string name="btn_test_retry">Simular Falha Retentável (Backoff)</string>
+    <string name="btn_test_quota">Simular Quota / 429 (Retry-After)</string>
+    <string name="btn_test_circuit">Disparar Circuit Breaker</string>
+    <string name="btn_test_watchdog">Testar Watchdog (Travamento)</string>
+    <string name="btn_test_db_corrupt">Testar Recuperação de Banco</string>
+    <string name="btn_simulate_crash">Simular Crash Inesperado</string>
+    <string name="crash_warning_title">Encerramento Inesperado Detectado</string>
+    <string name="crash_warning_message">O aplicativo fechou de forma inesperada na sessão anterior. O estado crítico foi restaurado e o registro do erro foi gravado de forma sanitizada.</string>
+    <string name="btn_view_last_crash">Ver Último Crash</string>
+    <string name="btn_dismiss">Entendido</string>
+    
+    <!-- Security Info -->
+    <string name="security_screen_title">Transparência de Segurança</string>
+    <string name="security_what_is_protected">O que o Cofre protege:</string>
+    <string name="security_protected_bullets">• Chaves cifradas com AES-256-GCM isoladas no Android Keystore / StrongBox.\n• A chave criptográfica mestra nunca sai do hardware seguro do dispositivo.\n• Blobs de dados usam autenticação adicional (AAD) com o ID do provedor para impedir troca de chaves.\n• Chaves de API nunca são salvas em texto puro nem enviadas para nenhum servidor.\n• Logs, URLs e rastros de erro passam por sanitização contínua.\n• Telas sensíveis protegidas com FLAG_SECURE contra captura de tela.</string>
+    <string name="security_what_is_not_protected">O que não pode ser protegido:</string>
+    <string name="security_not_protected_bullets">• Aparelhos com Root ou Bootloader desbloqueado com malware de nível de kernel.\n• Engenharia reversa em tempo de execução com dumping direto de memória RAM durante uma chamada ativa ao provedor.\n• Dispositivos compartilhados desbloqueados sem proteção biométrica ou PIN de tela.</string>
+    
+    <!-- Actions & Common -->
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_confirm">Confirmar</string>
+    <string name="btn_close">Fechar</string>
+    <string name="btn_retry">Tentar novamente</string>
+    <string name="btn_open_settings">Abrir configurações</string>
+    <string name="badge_not_implemented">NÃO IMPLEMENTADO</string>
+    <string name="badge_prompt_1b">Aguardando Prompt 1B</string>
+    
+    <!-- Error Messages (AppError pt-BR) -->
+    <string name="err_auth_user">Chave de API inválida, ausente ou revogada. Verifique suas credenciais no cofre.</string>
+    <string name="err_quota_user">Limite de uso atingido no provedor. Tente novamente após o período de espera.</string>
+    <string name="err_network_user">Sem conexão com a internet ou erro de rede. Verifique seu Wi-Fi ou dados móveis.</string>
+    <string name="err_timeout_user">Tempo limite esgotado. O provedor demorou demais para responder.</string>
+    <string name="err_provider_unavailable_user">Serviço do provedor temporariamente instável ou sobrecarregado (5xx).</string>
+    <string name="err_model_unavailable_user">O modelo selecionado não está disponível ou foi descontinuado.</string>
+    <string name="err_safety_blocked_user">A requisição ou resposta foi bloqueada pelas políticas de segurança do modelo.</string>
+    <string name="err_empty_response_user">O provedor retornou uma resposta em branco.</string>
+    <string name="err_invalid_response_user">Resposta externa não pôde ser interpretada.</string>
+    <string name="err_stream_interrupted_user">A transmissão de dados foi interrompida antes do término.</string>
+    <string name="err_unsupported_param_user">Parâmetro não suportado pelo provedor configurado.</string>
+    <string name="err_invalid_request_user">Requisição rejeitada pelo provedor (erro 400). Verifique os parâmetros.</string>
+    <string name="err_permission_user">Permissão do sistema não concedida.</string>
+    <string name="err_storage_user">Erro de armazenamento local (disco cheio ou falha de banco).</string>
+    <string name="err_crypto_user">Falha criptográfica no Keystore. A chave precisa ser reinserida.</string>
+    <string name="err_cancelled_user">A operação foi cancelada pelo usuário.</string>
+    <string name="err_unknown_user">Ocorreu um erro imprevisto.</string>
+</resources>
