@@ -107,7 +107,9 @@ fun McpDashboardScreen(
             Button(
                 onClick = {
                     scope.launch {
-                        testStatusExa = if (exaApiKey.isNotBlank()) "Conexão Exa MCP bem-sucedida!" else "Insira uma chave válida."
+                        val sanitized = com.example.security.ApiKeySanitizer.sanitizeKey(exaApiKey)
+                        exaApiKey = sanitized
+                        testStatusExa = if (sanitized.isNotBlank()) "Conexão Exa MCP bem-sucedida!" else "Insira uma chave válida."
                         Toast.makeText(context, testStatusExa, Toast.LENGTH_SHORT).show()
                     }
                 },
@@ -140,7 +142,9 @@ fun McpDashboardScreen(
             Button(
                 onClick = {
                     scope.launch {
-                        testStatusGithub = if (githubApiKey.isNotBlank()) "Conexão GitHub MCP bem-sucedida!" else "Insira um Token válido."
+                        val sanitized = com.example.security.ApiKeySanitizer.sanitizeKey(githubApiKey)
+                        githubApiKey = sanitized
+                        testStatusGithub = if (sanitized.isNotBlank()) "Conexão GitHub MCP bem-sucedida!" else "Insira um Token válido."
                         Toast.makeText(context, testStatusGithub, Toast.LENGTH_SHORT).show()
                     }
                 },
@@ -181,8 +185,10 @@ fun McpDashboardScreen(
             Button(
                 onClick = {
                     scope.launch {
-                        settingsRepo.setSetting("mcp_exa_key", exaApiKey)
-                        settingsRepo.setSetting("mcp_github_key", githubApiKey)
+                        val cleanExa = com.example.security.ApiKeySanitizer.sanitizeKey(exaApiKey)
+                        val cleanGithub = com.example.security.ApiKeySanitizer.sanitizeKey(githubApiKey)
+                        settingsRepo.setSetting("mcp_exa_key", cleanExa)
+                        settingsRepo.setSetting("mcp_github_key", cleanGithub)
                         settingsRepo.setSetting("policy_exa_only_search", exaOnlyPolicy.toString())
                         settingsRepo.setSetting("mcp_exa_tool_enabled", exaToolEnabled.toString())
                         settingsRepo.setSetting("mcp_github_tool_enabled", githubToolEnabled.toString())

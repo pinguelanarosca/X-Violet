@@ -76,6 +76,22 @@ class KeystoreVaultTest {
     }
 
     @Test
+    fun testSaveKeyWithFormattingQuotesAndBearerPrefixGetsSanitized() {
+        runBlocking {
+            val rawWithQuotesAndBearer = "  Bearer \"AIzaSyFormattedKey1234567890\" \n"
+            val saveResult = vault.saveKey("gemini", rawWithQuotesAndBearer)
+            assertTrue("Salvar chave com aspas e prefixo deve ser sucesso e sanitizado", saveResult.isSuccess)
+
+            val readResult = vault.getDecryptedKey("gemini")
+            assertTrue("Ler chave deve ser sucesso", readResult.isSuccess)
+            assertEquals("AIzaSyFormattedKey1234567890", readResult.getOrNull())
+
+            val credential = db.vaultDao().getCredential("gemini")
+            assertEquals("••••7890", credential?.maskedKey)
+        }
+    }
+
+    @Test
     fun testBlobOnDiskDoesNotContainPlaintextKey() {
         runBlocking {
             val rawKey = "sk-superSecretToken1234567890abcdef"

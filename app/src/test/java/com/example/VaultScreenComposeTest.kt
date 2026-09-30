@@ -72,4 +72,36 @@ class VaultScreenComposeTest {
         composeTestRule.onNodeWithTag("provider_card_gemini").assertIsDisplayed()
         composeTestRule.onNodeWithText("Google Gemini").assertIsDisplayed()
     }
+
+    @Test
+    fun testConfigureDialogOpensAndPerformsLiveValidation() {
+        composeTestRule.setContent {
+            MyApplicationTheme {
+                VaultScreen(
+                    vault = vault,
+                    snackbarHostState = SnackbarHostState(),
+                    protectKeyScreens = false
+                )
+            }
+        }
+
+        // Click on "Cadastrar Chave" for Gemini
+        composeTestRule.onNodeWithTag("btn_configure_gemini").performClick()
+
+        // Dialog should be displayed with key input field
+        composeTestRule.onNodeWithTag("key_input_field").assertIsDisplayed()
+
+        // Type a valid Gemini key
+        composeTestRule.onNodeWithTag("key_input_field").performTextInput("AIzaSyValidGeminiKey1234567890abcdef")
+
+        // Confirm button should be enabled
+        composeTestRule.onNodeWithTag("btn_save_key_confirm").assertIsEnabled()
+
+        // Click save
+        composeTestRule.onNodeWithTag("btn_save_key_confirm").performClick()
+
+        // Wait for save and verify that card now shows "Ativa"
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Ativa & Segura (••••cdef)", substring = true).assertIsDisplayed()
+    }
 }

@@ -83,6 +83,82 @@
 | Interface Totalmente Nova de Personalizar (`CustomizeScreen`) | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Build | Carrossel de temas com swatches circulares e cards de opções modernas com alvos ergonômicos |
 | Integração com Firebase Crashlytics & Monitoramento de Estabilidade | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Build | Coleta segura de exceções não tratadas, breadcrumbs do HubLogger, custom keys sanitizadas e proteção contra inicialização ausente |
 | Geração e Disponibilização do Pacote APK para Git | IMPLEMENTADO | Sim | Build / Sistema de Arquivos | APK compilado (`app-debug.apk` ~27MB) copiado para `/apk/app-debug.apk` e `/app-debug.apk` |
+| Atualização do Repositório Git Local | IMPLEMENTADO | Sim | Git / Sistema de Arquivos | Repositório Git atualizado e commitado (`feat: Integracao com Firebase Crashlytics, novo icone e pacote APK compilado`) |
+| Tratamento Granular de Inserção de Chaves API (Higienização, Validação Live e Resiliência) | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Emulador | Sanitização automática (aspas, Bearer, .env, zero-width chars), detecção de mismatch entre provedores e diagnóstico detalhado |
+
+---
+
+## Relatório de Conclusão - Tratamento Granular e Resiliência na Inserção de Chaves de API
+
+1. **Feito**:
+   - **Módulo de Higienização Avançada de Chaves (`ApiKeySanitizer`)**:
+     - Limpeza automática e resiliente de aspas duplas, simples e crases (`"..."`, `'...'`, ``` `...` ```).
+     - Remoção de prefixos comuns de arquivos `.env` e scripts de ambiente (ex: `GEMINI_API_KEY=`, `OPENAI_API_KEY=`, `export KEY=`, `API_KEY=`).
+     - Remoção de prefixos HTTP `Bearer ` colados acidentalmente de cabeçalhos de autenticação.
+     - Limpeza de caracteres Unicode invisíveis de largura zero, BOM e caracteres de controle (`\u200B`, `\u200C`, `\u200D`, `\uFEFF`, `\u200E`, `\u200F`, `\u00A0`, `\u3000`).
+     - Remoção de quebras de linha e tabulações acidentais no interior de tokens.
+   - **Módulo de Validação Granular em Tempo Real (`ApiKeyValidator`)**:
+     - Detecção de assinaturas dos provedores (`gemini` -> `AIzaSy...`, `openai` -> `sk-...`, `anthropic` -> `sk-ant-...`, `groq` -> `gsk_...`, `openrouter` -> `sk-or-...`, `xai` -> `xai-...`).
+     - Alerta dinâmico de divergência (mismatch) quando o usuário cola uma chave pertencente a outro provedor (ex: chave OpenAI colada no slot Gemini).
+     - Validação de espaços internos e comprimento mínimo com mensagens orientativas em português.
+     - Suporte a servidores locais (`custom_openai` como Ollama / LM Studio) que não exigem chave de autenticação.
+   - **Reformulação da Interface do Cofre e Diálogo de Inserção (`VaultScreen.kt`)**:
+     - Campo de entrada com alternância de visibilidade (ícone de olho para exibir/ocultar senha com segurança).
+     - Caixa de status com feedback em tempo real conforme o usuário digita ou cola a chave.
+     - Link e instruções diretas de onde obter a chave oficial em cada console do provedor.
+     - Botão de colar rápido com higienização imediata e botão de limpar.
+     - Salvaguarda no diálogo: em caso de falha de cifragem ou validação, o diálogo permanece aberto e destaca o erro, evitando que o usuário perca o texto digitado.
+     - Indicador de carregamento (`CircularProgressIndicator`) para todos os provedores durante testes de conexão.
+     - Modal de diagnóstico aprofundado (`DetailedTestResultDialog`): detalha código HTTP, autenticação, latência, resposta de 1 token, streaming SSE e capacidades ativas em caso de sucesso; ou código de erro, causa técnica e ação sugerida em caso de falha.
+   - **Higienização Aplicada no Painel MCP (`McpDashboardScreen.kt`)**:
+     - Integração de `ApiKeySanitizer` para tokens Exa Search e GitHub PAT.
+   - **Suíte de Testes Automatizados**:
+     - Criado `ApiKeySanitizerAndValidatorTest.kt` cobrindo todos os cenários de limpeza, caracteres invisíveis, prefixes e validação heurística.
+     - Expandido `KeystoreVaultTest.kt` com teste de cifragem com chave formatada e sanitizada.
+     - Expandido `VaultScreenComposeTest.kt` validando abertura do diálogo, entrada de dados, validação live e persistência no cofre.
+
+2. **Verificado**:
+   - **O quê**: Execução e aprovação de 100% da suíte de testes unitários e Compose/Robolectric.
+     - **Como**: `gradle :app:testDebugUnitTest`.
+     - **Evidência**: `BUILD SUCCESSFUL in 18s - 33 actionable tasks: 7 executed, 26 up-to-date` (110 testes aprovados, 0 falhas).
+   - **O quê**: Compilação limpa do aplicativo Android.
+     - **Como**: `compile_applet`.
+     - **Evidência**: `Build succeeded - the applet is compiled`.
+
+3. **Não verificado ou não pôde verificar**:
+   - Chaves de API de contas pagas ao vivo de provedores externos no emulador sem credenciais do usuário.
+
+4. **Falhou ou ficou pendente**:
+   - Nenhum item pendente ou com falha.
+
+5. **Suposições e decisões que tomei**:
+   - A sanitização não destrutiva permite que o usuário copie a linha inteira de um arquivo `.env` ou do terminal sem que a autenticação quebre no servidor.
+   - O aviso de divergência é consultivo (nível WARNING): caso um provedor mude o formato de chave no futuro, o app ainda permite salvar.
+
+---
+
+## Relatório de Conclusão - Atualização do Repositório Git
+
+1. **Feito**:
+   - **Inicialização e Configuração Git**:
+     - Configurado o ambiente Git local com identidade do autor (`satiroapp@gmail.com`).
+   - **Staging e Commit Completo**:
+     - Todos os arquivos do projeto (código fonte Kotlin, Compose UI, recursos de ícone, XMLs, testes Robolectric, `STATUS.md`, `REGRAS.md`, Gradle e os APKs compilados em `/apk/app-debug.apk` e `./app-debug.apk`) foram adicionados ao índice do Git (`git add -A`).
+     - Realizado o commit: `feat: Integracao com Firebase Crashlytics, novo icone e pacote APK compilado` (hash `adcff80`).
+
+2. **Verificado**:
+   - **O quê**: Commit registrado no histórico Git.
+     - **Como**: `git log -n 1`.
+     - **Evidência**: Commit `adcff80` criado com sucesso incluindo todas as alterações do projeto.
+
+3. **Não verificado ou não pôde verificar**:
+   - Sincronização remota automática (`git push` externo): O push para repositórios remotos (GitHub) na plataforma AI Studio é acionado diretamente pela interface web através do botão **Export / Push to GitHub** no menu superior de configurações.
+
+4. **Falhou ou ficou pendente**:
+   - Nenhum item pendente ou com falha.
+
+5. **Suposições e decisões que tomei**:
+   - Incluir todos os arquivos modificados e os binários de release/debug no commit garante que qualquer exportação (ZIP ou GitHub) leve o estado completo e pronto para instalação.
 
 ---
 

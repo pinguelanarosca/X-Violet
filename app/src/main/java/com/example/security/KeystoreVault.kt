@@ -43,13 +43,22 @@ class KeystoreVault(
     }
 
     suspend fun saveKey(providerId: String, rawApiKey: String): Result<Unit> = withContext(Dispatchers.IO) {
-        val sanitizedKey = rawApiKey.trim().replace("\n", "").replace("\r", "")
-        if (sanitizedKey.length < 5) {
+        val sanitizedKey = ApiKeySanitizer.sanitizeKey(rawApiKey, providerId)
+        if (providerId != "custom_openai" && sanitizedKey.length < 5) {
             return@withContext Result.failure(
                 AppError.Auth(
                     code = "ERR_KEY_TOO_SHORT",
-                    userMessage = "A chave de API informada é muito curta ou inválida.",
-                    technicalCause = "Comprimento da chave sanitizada é menor que 5 caracteres"
+                    userMessage = "A chave de API informada é muito curta ou inválida para o provedor '$providerId'.",
+                    technicalCause = "Comprimento da chave sanitizada (${sanitizedKey.length}) é menor que 5 caracteres"
+                )
+            )
+        }
+        if (providerId != "custom_openai" && sanitizedKey.contains(" ")) {
+            return@withContext Result.failure(
+                AppError.Auth(
+                    code = "ERR_KEY_INVALID_WHITESPACE",
+                    userMessage = "A chave de API contém espaços internos inválidos.",
+                    technicalCause = "Espaços encontrados no interior do token de autenticação"
                 )
             )
         }
