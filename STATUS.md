@@ -82,6 +82,37 @@
 | Interface Totalmente Nova do Painel (`DashboardScreen`) | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Build | Card de status do sistema operacional, grid moderno de módulos com `HubIconBadge` e tags semânticas |
 | Interface Totalmente Nova de Personalizar (`CustomizeScreen`) | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Build | Carrossel de temas com swatches circulares e cards de opções modernas com alvos ergonômicos |
 | Integração com Firebase Crashlytics & Monitoramento de Estabilidade | IMPLEMENTADO | Sim | Unit tests JVM / Robolectric / Build | Coleta segura de exceções não tratadas, breadcrumbs do HubLogger, custom keys sanitizadas e proteção contra inicialização ausente |
+| Geração e Disponibilização do Pacote APK para Git | IMPLEMENTADO | Sim | Build / Sistema de Arquivos | APK compilado (`app-debug.apk` ~27MB) copiado para `/apk/app-debug.apk` e `/app-debug.apk` |
+
+---
+
+## Relatório de Conclusão - Geração de Arquivo .APK para Git
+
+1. **Feito**:
+   - **Compilação do APK**: Executado `gradle :app:assembleDebug` com sucesso.
+   - **Disponibilização para Controle de Versão / Git**:
+     - Como a pasta `build/` padrão do Gradle é ignorada pelo `.gitignore`, o binário compilado foi disponibilizado nas localizações rastreáveis:
+       - `/apk/app-debug.apk` (27 MB)
+       - `/app-debug.apk` (27 MB)
+       - `/app/build/outputs/apk/debug/app-debug.apk` (saída padrão do Gradle).
+   - **Verificação com `compile_applet`**: Ambiente validado com sucesso.
+
+2. **Verificado**:
+   - **O quê**: Geração do binário APK com tamanho e integridade corretos.
+     - **Como**: `ls -lh apk/app-debug.apk ./app-debug.apk`.
+     - **Evidência**: Arquivos gerados com 27MB (código de saída 0).
+   - **O quê**: Compilação sem erros no sistema de build do AI Studio.
+     - **Como**: `compile_applet`.
+     - **Evidência**: `Build succeeded - the applet is compiled`.
+
+3. **Não verificado ou não pôde verificar**:
+   - Comando `git push` direto pelo terminal (o controle de push para o GitHub e exportação de arquivo é realizado pelo painel de configurações do Google AI Studio).
+
+4. **Falhou ou ficou pendente**:
+   - Nenhum item pendente ou com falha.
+
+5. **Suposições e decisões que tomei**:
+   - Copiar o arquivo `.apk` para a raiz (`./app-debug.apk`) e para o diretório `/apk/` garante que, ao exportar para o GitHub ou baixar o ZIP pelo menu do AI Studio, o APK esteja disponível para commit imediato.
 
 ---
 
